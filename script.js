@@ -23,34 +23,48 @@ function getHumanChoice() {
 }
 
 let humanScore = 0;
-
 let computerScore = 0;
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.getElementById("scissors");
+const results = document.getElementById("results");
+const scores = document.querySelector("#scores")
+const dialog = document.querySelector("dialog")
+const trial = document.querySelector("body + button")
+
+
+rock.addEventListener("click", () => playRound("Rock", getComputerChoice()))
+paper.addEventListener("click", () => playRound("Paper", getComputerChoice()))
+scissors.addEventListener("click", () => playRound("Scissors", getComputerChoice()))
 
 function playRound(humanChoice, computerChoice) {
     if ((humanChoice === "Rock" && computerChoice === "Paper") ||
      (humanChoice === "Paper" && computerChoice === "Scissors") ||
      humanChoice === "Scissors" && computerChoice === "Rock") {
         computerScore++
-        return `${computerChoice} beats ${humanChoice}. You lose this round.\n ———Score Card——— \n Human: ${humanScore} Computer: ${computerScore}`
+        results.textContent = `${computerChoice} beats ${humanChoice}. You lose this round.`
+        scores.textContent = `Human: ${humanScore} Computer: ${computerScore}`
     } else if ((humanChoice === "Rock" && computerChoice === "Scissors") ||
     (humanChoice === "Paper" && computerChoice === "Rock") ||
     humanChoice === "Scissors" && computerChoice === "Paper") {
         humanScore++
-       return `${humanChoice} beats ${computerChoice}. You win this round.\n ———Score Card——— \n Human: ${humanScore} Computer: ${computerScore}`
+        results.textContent = `${humanChoice} beats ${computerChoice}. You win this round.`
+        scores.textContent = `Human: ${humanScore} Computer: ${computerScore}`
     } else if ((humanChoice === "Rock" && computerChoice === "Rock") ||
     (humanChoice === "Paper" && computerChoice === "Paper") ||
     humanChoice === "Scissors" && computerChoice === "Scissors") {
-       return `We both chose ${humanChoice}. It's a tie!\n ———Score Card——— \n Human: ${humanScore} Computer: ${computerScore}`
+       results.textContent = `We both chose ${humanChoice}. It's a tie!`
+       scores.textContent = `Human: ${humanScore} Computer: ${computerScore}`
     } else {
-        return "Sorry! I'm experiencing an error. Try playing again soon!"
+        results.textContent = "Sorry! I'm experiencing an error. Try playing again soon!"
+    }
+
+    if (computerScore >= 5 || humanScore >= 5) {
+        window.alert("Game over! Let's play again!")
+        scores.textContent = ""
+        results.textContent = ""
+        humanScore = 0;
+        computerScore = 0;
+        return
     }
 }
-
-function playGame() {
-    let round
-    for (let round = 0; round < 5; round++) {
-        console.log(playRound(getHumanChoice(), getComputerChoice()))
-    }
-}
-
-console.log(playGame())
